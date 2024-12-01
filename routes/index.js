@@ -31,7 +31,7 @@ AWS.config.update({
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Express_02'});
+    res.render('index', {title: 'Image API Demo'});
 });
 
 router.get('/joke/data', async function (req, res, next) {
