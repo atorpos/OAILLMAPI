@@ -1,5 +1,5 @@
 #Use the official Node.js 14 LTS image as a base image
-FROM node:16
+FROM node:18
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the port your app runs on
-EXPOSE 3002
+EXPOSE 3000
 
 # Define the command to run your app
-CMD ["node", "app.js"]
+CMD ["node", "bin/www"]
