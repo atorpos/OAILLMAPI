@@ -1,8 +1,38 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  /*padding: 20px;*/
+  color: #333;
+}
+
+h1 {
+  color: #555;
+}
+
+.drop-zone {
+  border: 2px dashed #007bff;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px 0;
+  background-color: #e7f1ff;
+  text-align: center;
+}
+
+.drop-zone.dragging {
+  border-color: #0056b3;
+}
+
+#browse-btn {
+  color: #007bff;
+  cursor: pointer;
+}
+
+#uploaded-status, #upload-message, #answer-img {
+  font-size: 1.1em;
 }
 
 a {
-  color: #00B7FF;
+  color: #007bff;
 }

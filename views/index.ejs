@@ -1,11 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.8/dist/purify.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+<div class="max-w-xl mx-auto p-6">
+    <h1 class="text-2xl font-bold text-blue-800 mb-4"><%= title %></h1>
+    <p class="text-lg mb-4">Welcome to <%= title %></p>
+
+    <div id="drop-zone"
+         class="border-2 border-dashed border-blue-500 p-8 bg-white mb-4 rounded-lg text-center drop-zone">
+        <p class="text-lg">Drag & Drop your files here or <span id="browse-btn" class="text-blue-500 cursor-pointer">browse</span>
+        </p>
+        <input type="file" id="file-input" hidden>
+    </div>
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden mt-8">
+        <div class="rounded-xl overflow-hidden shadow-lg bg-white border border-gray-200" id="upload-message"></div>
+        <div class="p-8">
+            <div id="uploaded-status" class="uppercase tracking-wide text-sm text-indigo-500 font-semibold"></div>
+            <div id="answer-img"
+                 class="block mt-1 text-lg leading-tight font-medium text-black hover:underline"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const uploadMessage = document.getElementById('upload-message');
+    const uploadedFile = document.getElementById('uploaded-status');
+    const answerMessage = document.getElementById('answer-img');
+
+    // Handle drag events
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragging');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragging');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragging');
+        const files = e.dataTransfer.files;
+        handleUpload(files[0]);
+    });
+
+    document.getElementById('browse-btn').addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+        handleUpload(fileInput.files[0]);
+    });
+
+    // Handle file upload
+    function handleUpload(file) {
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.url) {
+                    uploadedFile.innerHTML = `${data.message}`;
+                    answerMessage.innerHTML = `Answer<p class="mt-2 text-gray-500"> ${data.answer}</p>`
+                    uploadMessage.innerHTML = `<img class="w-full h-auto" src="${data.url}" alt="uploaded" />`;
+                }
+            })
+            .catch(() => {
+                uploadMessage.innerText = 'File upload failed!';
+                uploadMessage.style.color = 'red';
+            });
+    }
+</script>
+</body>
 </html>
