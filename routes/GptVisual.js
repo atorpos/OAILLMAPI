@@ -14,7 +14,8 @@ class GptVisual {
                     content: [
                         {
                             "type": "text",
-                            "text": "Please analyst and describe the image, if there is a person in the image, please identify who he or she is or if you can't please analyst is there is EXIF info and describe it or if it is a question in the image, please answer the question",
+                            // "text": "Please analyst and describe the image, if there is a person in the image, please identify who he or she is or if you can't please analyst is there is EXIF info and describe it or if it is a question in the image, please answer the question",
+                            "text": "Create a Studio Ghibli Version of this image"
                         },
                         {
                             "type": "image_url",
